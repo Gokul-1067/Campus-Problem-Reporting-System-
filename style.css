@@ -1,3 +1,8 @@
+/* ===================================================
+   UniCare - Campus Problem Reporting System
+   Main Stylesheet (Desktop, Laptop & Mobile Responsive)
+   =================================================== */
+
 /* Reset basic margins and paddings */
 * {
     margin: 0;
@@ -10,6 +15,9 @@ body {
     background-color: #f4f6f9;
     color: #333333;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Header and Navigation Bar */
@@ -21,19 +29,29 @@ header {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
 }
 
 .logo h1 {
     font-size: 24px;
+    letter-spacing: 0.5px;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin-left: 18px;
     font-size: 15px;
     font-weight: bold;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: color 0.2s ease;
 }
 
 nav a:hover,
@@ -45,16 +63,18 @@ nav a.active {
 /* Main Content Area */
 main {
     max-width: 900px;
-    margin: 40px auto;
-    padding: 25px;
+    width: 92%;
+    margin: 35px auto;
+    padding: 25px 30px;
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    flex: 1;
 }
 
 #dynamic-greeting {
     color: #003366;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     font-size: 24px;
 }
 
@@ -76,19 +96,24 @@ main {
     background-color: #eef2f7;
     border: 1px solid #dcdcdc;
     border-radius: 6px;
-    padding: 20px;
+    padding: 22px 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card h3 {
     color: #003366;
     margin-bottom: 10px;
+    font-size: 19px;
 }
 
 .card p {
     font-size: 14px;
     color: #444444;
     margin-bottom: 20px;
+    line-height: 1.5;
 }
 
 /* Buttons */
@@ -96,13 +121,15 @@ main {
     display: inline-block;
     background-color: #003366;
     color: white;
-    padding: 10px 18px;
+    padding: 11px 20px;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 5px;
     font-weight: bold;
     font-size: 14px;
     border: none;
     cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
 }
 
 .btn:hover {
@@ -119,8 +146,9 @@ main {
 
 .btn-submit {
     background-color: #00802b;
-    font-size: 16px;
-    padding: 10px 20px;
+    font-size: 15px;
+    padding: 12px 24px;
+    width: auto;
 }
 
 .btn-submit:hover {
@@ -144,17 +172,19 @@ main {
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 10px;
+    padding: 11px 12px;
     border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 14px;
     font-family: inherit;
     outline: none;
+    transition: border-color 0.2s ease;
 }
 
 .form-group input[type="file"] {
     background-color: #fcfcfc;
     padding: 8px;
+    cursor: pointer;
 }
 
 .form-group input:focus,
@@ -180,39 +210,44 @@ main {
     border: 1px solid #dce4ec;
     border-left: 5px solid #003366;
     border-radius: 6px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
 }
 
 .issue-card h3 {
     color: #003366;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-size: 18px;
+    word-break: break-word;
 }
 
 .issue-meta {
     font-size: 13px;
     color: #666666;
     margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .issue-meta span {
-    margin-right: 15px;
     background-color: #eef2f7;
     padding: 3px 8px;
     border-radius: 3px;
     font-weight: bold;
+    display: inline-block;
 }
 
 .issue-card p {
     font-size: 14px;
     color: #444444;
+    word-break: break-word;
 }
 
 /* Uploaded Image inside Cards */
 .card-image {
     max-width: 100%;
-    max-height: 220px;
+    max-height: 240px;
     margin-top: 12px;
     border-radius: 5px;
     border: 1px solid #cccccc;
@@ -236,6 +271,7 @@ main {
     font-weight: bold;
     padding: 3px 10px;
     border-radius: 12px;
+    white-space: nowrap;
 }
 
 .badge-found {
@@ -246,6 +282,7 @@ main {
     font-weight: bold;
     padding: 3px 10px;
     border-radius: 12px;
+    white-space: nowrap;
 }
 
 /* Resolved Issues List (Recent Fixes Page) */
@@ -260,8 +297,8 @@ main {
     border: 1px solid #dce4ec;
     border-left: 5px solid #00802b;
     border-radius: 6px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
 }
 
 .resolved-header {
@@ -270,12 +307,13 @@ main {
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .resolved-item h3 {
     color: #003366;
     font-size: 18px;
+    word-break: break-word;
 }
 
 .resolved-badge {
@@ -286,45 +324,54 @@ main {
     font-weight: bold;
     padding: 3px 10px;
     border-radius: 12px;
+    white-space: nowrap;
 }
 
 .resolved-meta {
     font-size: 13px;
     color: #666666;
     margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .resolved-meta span {
-    margin-right: 15px;
     background-color: #eef2f7;
     padding: 3px 8px;
     border-radius: 3px;
     font-weight: bold;
+    display: inline-block;
 }
 
 .resolved-item p {
     font-size: 14px;
     color: #444444;
+    word-break: break-word;
 }
 
 /* Table Styling (Emergency Page) */
 .table-container {
     width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     margin-top: 15px;
+    border-radius: 6px;
+    border: 1px solid #dddddd;
 }
 
 .contacts-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 15px;
+    min-width: 500px; /* Ensures table remains readable on small screens */
 }
 
 .contacts-table th,
 .contacts-table td {
     padding: 12px 15px;
     text-align: left;
-    border: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
 }
 
 .contacts-table th {
@@ -345,9 +392,109 @@ main {
 /* Footer */
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 20px 15px;
     background-color: #003366;
     color: white;
-    margin-top: 50px;
+    margin-top: auto;
     font-size: 14px;
+}
+
+/* ===================================================
+   RESPONSIVE DESIGN (Tablets & Mobile Phones)
+   =================================================== */
+
+/* Tablet & Mobile Screens (768px and below) */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    nav {
+        width: 100%;
+        gap: 10px 14px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    main {
+        width: 95%;
+        margin: 20px auto;
+        padding: 20px 16px;
+    }
+
+    #dynamic-greeting {
+        font-size: 21px;
+    }
+
+    .cards-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .card {
+        padding: 18px 16px;
+    }
+
+    .btn-submit {
+        width: 100%;
+    }
+}
+
+/* Small Mobile Screens (480px and below) */
+@media (max-width: 480px) {
+    header {
+        padding: 12px 15px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    nav {
+        gap: 8px 10px;
+    }
+
+    nav a {
+        font-size: 13.5px;
+        padding: 3px 5px;
+    }
+
+    main {
+        padding: 16px 14px;
+        margin: 15px auto;
+    }
+
+    #dynamic-greeting {
+        font-size: 19px;
+    }
+
+    .intro-text {
+        font-size: 14.5px;
+    }
+
+    .issue-card,
+    .resolved-item {
+        padding: 14px 14px;
+    }
+
+    .issue-card h3,
+    .resolved-item h3 {
+        font-size: 16.5px;
+    }
+
+    .contacts-table th,
+    .contacts-table td {
+        padding: 10px 12px;
+        font-size: 13.5px;
+    }
+
+    footer {
+        font-size: 12.5px;
+        padding: 16px 10px;
+    }
 }
