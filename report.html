@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report an Issue - UniCare</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section with Navigation -->
+    <header>
+        <div class="logo">
+            <h1>UniCare</h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="report.html" class="active">Report an Issue</a>
+            <a href="resolved.html">Recent Fixes</a>
+            <a href="lost-found.html">Lost & Found</a>
+            <a href="emergency.html">Emergency Contacts</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>Report a Campus Infrastructure Issue</h2>
+        <p class="intro-text">Please fill out the form below to report any maintenance, network, or cleanliness problems.</p>
+
+        <!-- Reporting Form -->
+        <form id="report-form">
+            <div class="form-group">
+                <label for="title">Problem Title *</label>
+                <input type="text" id="title" placeholder="e.g. Broken fan in classroom" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Wi-Fi">Wi-Fi</option>
+                    <option value="Cleanliness">Cleanliness</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location *</label>
+                <select id="location" required>
+                    <option value="">-- Select Location --</option>
+                    <option value="Boys Hostel">Boys Hostel</option>
+                    <option value="Girls Hostel">Girls Hostel</option>
+                    <option value="Library">Library</option>
+                    <option value="Main Block">Main Block</option>
+                    <option value="Cafeteria">Cafeteria</option>
+                </select>
+            </div>
+
+            <!-- Insert File / Photo Option -->
+            <div class="form-group">
+                <label for="image">Attach Photo / Evidence File (Optional)</label>
+                <input type="file" id="image" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description *</label>
+                <textarea id="description" rows="4" placeholder="Provide more details about the issue..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Submit Report</button>
+        </form>
+
+        <hr class="divider">
+
+        <!-- Recently Reported Issues Section -->
+        <h2>Recently Reported Issues</h2>
+        <div id="issue-list">
+            <!-- Issues from localStorage will be displayed here -->
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 UniCare | Campus Problem Reporting System | Created for B.Tech CSE Project</p>
+    </footer>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>

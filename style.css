@@ -1,0 +1,353 @@
+/* Reset basic margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* Header and Navigation Bar */
+header {
+    background-color: #003366;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.logo h1 {
+    font-size: 24px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+nav a:hover,
+nav a.active {
+    text-decoration: underline;
+    color: #ffcc00;
+}
+
+/* Main Content Area */
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#dynamic-greeting {
+    color: #003366;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.intro-text {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 25px;
+}
+
+/* Flexbox Action Cards Section (Home Page) */
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.card {
+    flex: 1;
+    background-color: #eef2f7;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+}
+
+.card h3 {
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 14px;
+    color: #444444;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background-color: #003366;
+    color: white;
+    padding: 10px 18px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #002244;
+}
+
+.btn-emergency {
+    background-color: #cc0000;
+}
+
+.btn-emergency:hover {
+    background-color: #990000;
+}
+
+.btn-submit {
+    background-color: #00802b;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.btn-submit:hover {
+    background-color: #006622;
+}
+
+/* Form Styling (Report & Lost-Found Pages) */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.form-group input[type="file"] {
+    background-color: #fcfcfc;
+    padding: 8px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #003366;
+}
+
+.divider {
+    margin: 35px 0 25px 0;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Recently Reported Issues & Lost-Found Lists */
+#issue-list,
+#lost-found-list {
+    margin-top: 15px;
+}
+
+.issue-card {
+    background-color: #f9fbfd;
+    border: 1px solid #dce4ec;
+    border-left: 5px solid #003366;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+}
+
+.issue-card h3 {
+    color: #003366;
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.issue-meta {
+    font-size: 13px;
+    color: #666666;
+    margin-bottom: 10px;
+}
+
+.issue-meta span {
+    margin-right: 15px;
+    background-color: #eef2f7;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.issue-card p {
+    font-size: 14px;
+    color: #444444;
+}
+
+/* Uploaded Image inside Cards */
+.card-image {
+    max-width: 100%;
+    max-height: 220px;
+    margin-top: 12px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    display: block;
+    object-fit: contain;
+    background-color: #ffffff;
+}
+
+.no-issues {
+    color: #777777;
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* Badges for Lost and Found */
+.badge-lost {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.badge-found {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+/* Resolved Issues List (Recent Fixes Page) */
+.resolved-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.resolved-item {
+    background-color: #f9fbfd;
+    border: 1px solid #dce4ec;
+    border-left: 5px solid #00802b;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+}
+
+.resolved-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.resolved-item h3 {
+    color: #003366;
+    font-size: 18px;
+}
+
+.resolved-badge {
+    background-color: #e6f7ec;
+    color: #00802b;
+    border: 1px solid #b3e6c2;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.resolved-meta {
+    font-size: 13px;
+    color: #666666;
+    margin-bottom: 10px;
+}
+
+.resolved-meta span {
+    margin-right: 15px;
+    background-color: #eef2f7;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.resolved-item p {
+    font-size: 14px;
+    color: #444444;
+}
+
+/* Table Styling (Emergency Page) */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.contacts-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.contacts-table th,
+.contacts-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #dddddd;
+}
+
+.contacts-table th {
+    background-color: #003366;
+    color: white;
+    font-weight: bold;
+}
+
+/* Zebra-striping for table rows */
+.contacts-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.contacts-table tbody tr:hover {
+    background-color: #edf2f7;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #003366;
+    color: white;
+    margin-top: 50px;
+    font-size: 14px;
+}

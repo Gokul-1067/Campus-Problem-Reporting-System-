@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - UniCare</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section with Navigation -->
+    <header>
+        <div class="logo">
+            <h1>UniCare</h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="report.html">Report an Issue</a>
+            <a href="resolved.html">Recent Fixes</a>
+            <a href="lost-found.html" class="active">Lost & Found</a>
+            <a href="emergency.html">Emergency Contacts</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>Campus Lost & Found Portal</h2>
+        <p class="intro-text">Lost an item on campus or found someone's belongings? Post the details below to help reunite owners with their items.</p>
+
+        <!-- Lost and Found Form -->
+        <form id="lost-found-form">
+            <div class="form-group">
+                <label for="itemStatus">Status *</label>
+                <select id="itemStatus" required>
+                    <option value="">-- Select Status --</option>
+                    <option value="Lost">Lost (I lost this item)</option>
+                    <option value="Found">Found (I found this item)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="itemName">Item Name *</label>
+                <input type="text" id="itemName" placeholder="e.g. Blue Dell Laptop Charger, Scientific Calculator" required>
+            </div>
+
+            <div class="form-group">
+                <label for="itemLocation">Last Seen / Found Location *</label>
+                <select id="itemLocation" required>
+                    <option value="">-- Select Location --</option>
+                    <option value="Boys Hostel">Boys Hostel</option>
+                    <option value="Girls Hostel">Girls Hostel</option>
+                    <option value="Library">Library</option>
+                    <option value="Main Block">Main Block</option>
+                    <option value="Cafeteria">Cafeteria</option>
+                    <option value="Campus Grounds">Campus Grounds</option>
+                </select>
+            </div>
+
+            <!-- Insert File / Photo Option -->
+            <div class="form-group">
+                <label for="itemImage">Attach Photo of Item (Optional)</label>
+                <input type="file" id="itemImage" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="itemDescription">Description & Contact Info *</label>
+                <textarea id="itemDescription" rows="4" placeholder="Describe the item (color, brand, distinguishing marks) and how the owner can contact you..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Submit Item</button>
+        </form>
+
+        <hr class="divider">
+
+        <!-- Lost & Found Directory Section -->
+        <h2>Lost & Found Directory</h2>
+        <div id="lost-found-list">
+            <!-- Items from localStorage will appear here -->
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 UniCare | Campus Problem Reporting System | Created for B.Tech CSE Project</p>
+    </footer>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
