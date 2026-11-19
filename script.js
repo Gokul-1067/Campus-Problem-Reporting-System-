@@ -1,4 +1,4 @@
-// Dynamic greeting for Home Page (index.html)
+// Dynamic greeting on Home Page (index.html)
 var greeting = document.getElementById("dynamic-greeting");
 if (greeting) {
     var hour = new Date().getHours();
@@ -11,79 +11,44 @@ if (greeting) {
     }
 }
 
-// Sample campus issues for Recent Fixes page
-var defaultIssues = [
-    {
-        title: "Ceiling fan regulator damaged in Hostel Room 204",
-        category: "Hostel & Mess",
-        location: "Boys Hostel (Block 2, Room 204)",
-        date: "Nov 18",
-        status: "Pending",
-        description: "The fan speed regulator knob is stuck and sparks intermittently.",
-        image: "",
-        isMyQuery: false
-    },
-    {
-        title: "Wi-Fi access point router replacement",
-        category: "IT & Wi-Fi",
-        location: "Library Ground Floor",
-        date: "Nov 16",
-        status: "In Progress",
-        description: "Frequent disconnection in study cubicles. IT technician dispatched.",
-        image: "",
-        isMyQuery: false
-    },
-    {
-        title: "Classroom 304 projector lamp replacement",
-        category: "Academics",
-        location: "Main Academic Block, Room 304",
-        date: "Nov 15",
-        status: "In Progress",
-        description: "Projector lamp burned out during morning lecture. New parts ordered.",
-        image: "",
-        isMyQuery: false
-    },
-    {
-        title: "Replaced broken projector HDMI cable in Block 34",
-        category: "Academics",
-        location: "Block 34, Room 201",
-        date: "Nov 10",
-        status: "Resolved",
-        description: "The damaged HDMI cable was swapped out and tested with faculty laptops.",
-        image: "",
-        isMyQuery: false
-    },
-    {
-        title: "Repaired broken desk benches in Main Block",
-        category: "Infrastructure",
-        location: "Main Block, Room 102",
-        date: "Nov 08",
-        status: "Resolved",
-        description: "Carpentry team fixed loose screws and reinforced two wooden benches.",
-        image: "",
-        isMyQuery: false
+// Storage helper functions
+function loadData(key) {
+    return JSON.parse(localStorage.getItem(key) || "[]");
+}
+
+function saveData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+// File reader helper for image uploads
+function readFile(fileInput, callback) {
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) { callback(e.target.result); };
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        callback("");
     }
+}
+
+// Default campus issues (shown on recent fixes page)
+var defaultIssues = [
+    { title: "Ceiling fan regulator damaged in Hostel Room 204", category: "Hostel & Mess", location: "Boys Hostel (Block 2, Room 204)", date: "Nov 18", status: "Pending", description: "The fan speed regulator knob is stuck and sparks intermittently.", image: "", isMyQuery: false },
+    { title: "Wi-Fi access point router replacement", category: "IT & Wi-Fi", location: "Library Ground Floor", date: "Nov 16", status: "In Progress", description: "Frequent disconnection in study cubicles. IT technician dispatched.", image: "", isMyQuery: false },
+    { title: "Classroom 304 projector lamp replacement", category: "Academics", location: "Main Academic Block, Room 304", date: "Nov 15", status: "In Progress", description: "Projector lamp burned out during morning lecture. New parts ordered.", image: "", isMyQuery: false },
+    { title: "Replaced broken projector HDMI cable in Block 34", category: "Academics", location: "Block 34, Room 201", date: "Nov 10", status: "Resolved", description: "The damaged HDMI cable was swapped out and tested with faculty laptops.", image: "", isMyQuery: false },
+    { title: "Repaired broken desk benches in Main Block", category: "Infrastructure", location: "Main Block, Room 102", date: "Nov 08", status: "Resolved", description: "Carpentry team fixed loose screws and reinforced two wooden benches.", image: "", isMyQuery: false }
 ];
 
-// Helper functions for localStorage
-function getMyIssues() {
-    var data = localStorage.getItem("campusIssues");
-    return data ? JSON.parse(data) : [];
-}
-
-function saveMyIssues(list) {
-    localStorage.setItem("campusIssues", JSON.stringify(list));
-}
-
 // ==========================================
-// Report Form Logic (report.html)
+// 1. Report Form Logic (report.html)
 // ==========================================
 var reportForm = document.getElementById("report-form");
 var reportList = document.getElementById("issue-list");
 
 function showReportedIssues() {
     if (!reportList) return;
-    var list = getMyIssues();
+    var list = loadData("campusIssues");
     reportList.innerHTML = "";
 
     if (list.length === 0) {
@@ -93,35 +58,28 @@ function showReportedIssues() {
 
     for (var i = 0; i < list.length; i++) {
         var item = list[i];
-        var imgTag = item.image ? "<img src='" + item.image + "' class='card-image' alt='Attached Photo'>" : "";
+        var imgHtml = item.image ? "<img src='" + item.image + "' class='card-image' alt='Attached Photo'>" : "";
 
         var card = document.createElement("div");
         card.className = "issue-card";
         card.innerHTML = 
             "<div style='display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;'>" +
                 "<h3>" + item.title + "</h3>" +
-                "<div>" +
-                    "<span class='badge-pending'>⏳ " + item.status + "</span>" +
-                    "<button class='delete-query-btn' onclick='deleteReportedIssue(" + i + ")'>Delete</button>" +
-                "</div>" +
+                "<div><span class='badge-pending'>⏳ " + item.status + "</span>" +
+                "<button class='delete-query-btn' onclick='deleteReportedIssue(" + i + ")'>Delete</button></div>" +
             "</div>" +
-            "<div class='issue-meta'>" +
-                "<span>Category: " + item.category + "</span>" +
-                "<span>Location: " + item.location + "</span>" +
-                "<span>" + item.date + "</span>" +
-            "</div>" +
-            "<p>" + item.description + "</p>" +
-            imgTag;
+            "<div class='issue-meta'><span>Category: " + item.category + "</span><span>Location: " + item.location + "</span><span>" + item.date + "</span></div>" +
+            "<p>" + item.description + "</p>" + imgHtml;
 
         reportList.appendChild(card);
     }
 }
 
 function deleteReportedIssue(index) {
-    if (confirm("Are you sure you want to delete this issue?")) {
-        var list = getMyIssues();
+    if (confirm("Delete this issue?")) {
+        var list = loadData("campusIssues");
         list.splice(index, 1);
-        saveMyIssues(list);
+        saveData("campusIssues", list);
         showReportedIssues();
     }
 }
@@ -137,43 +95,32 @@ if (reportForm) {
         var location = document.getElementById("location").value;
         var description = document.getElementById("description").value;
         var fileInput = document.getElementById("image");
-        var file = fileInput.files[0];
 
-        function addIssue(imageData) {
+        readFile(fileInput, function(imageData) {
             var newIssue = {
                 title: title,
                 category: category,
                 location: location,
                 description: description,
-                image: imageData || "",
+                image: imageData,
                 status: "Pending",
                 date: new Date().toLocaleDateString(),
                 isMyQuery: true
             };
 
-            var list = getMyIssues();
+            var list = loadData("campusIssues");
             list.unshift(newIssue);
-            saveMyIssues(list);
+            saveData("campusIssues", list);
 
             showReportedIssues();
             reportForm.reset();
             alert("Issue submitted successfully!");
-        }
-
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                addIssue(event.target.result);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            addIssue("");
-        }
+        });
     });
 }
 
 // ==========================================
-// Recent Fixes & Status Logic (resolved.html)
+// 2. Recent Fixes & Status Logic (resolved.html)
 // ==========================================
 var fixesList = document.getElementById("fixes-list");
 var currentFilter = "all";
@@ -181,8 +128,7 @@ var currentFilter = "all";
 function showRecentFixes() {
     if (!fixesList) return;
 
-    var myIssues = getMyIssues();
-    var allItems = myIssues.concat(defaultIssues);
+    var allItems = loadData("campusIssues").concat(defaultIssues);
     var filtered = [];
 
     for (var i = 0; i < allItems.length; i++) {
@@ -199,11 +145,9 @@ function showRecentFixes() {
     fixesList.innerHTML = "";
 
     if (filtered.length === 0) {
-        if (currentFilter === "my-queries") {
-            fixesList.innerHTML = "<p class='no-issues'>You have not posted any queries yet. <a href='report.html'>Report an Issue</a>.</p>";
-        } else {
-            fixesList.innerHTML = "<p class='no-issues'>No issues found under " + currentFilter + ".</p>";
-        }
+        fixesList.innerHTML = currentFilter === "my-queries" 
+            ? "<p class='no-issues'>You have not posted any queries yet. <a href='report.html'>Report an Issue</a>.</p>" 
+            : "<p class='no-issues'>No issues found under " + currentFilter + ".</p>";
         return;
     }
 
@@ -231,7 +175,7 @@ function showRecentFixes() {
         }
 
         var myTag = fix.isMyQuery ? "<span class='badge-my-query'>👤 My Query</span>" : "";
-        var deleteBtn = fix.isMyQuery ? "<button class='delete-query-btn' onclick='deleteMyQueryFromFixes(\"" + fix.title.replace(/'/g, "\\'") + "\")'>Delete</button>" : "";
+        var deleteBtn = fix.isMyQuery ? "<button class='delete-query-btn' onclick='deleteFixQuery(\"" + fix.title.replace(/'/g, "\\'") + "\")'>Delete</button>" : "";
         var img = fix.image ? "<img src='" + fix.image + "' class='card-image' alt='Photo'>" : "";
 
         card.innerHTML = 
@@ -239,29 +183,24 @@ function showRecentFixes() {
                 "<h3>" + fix.title + myTag + "</h3>" +
                 "<div><span class='" + badgeClass + "'>" + badgeText + "</span>" + deleteBtn + "</div>" +
             "</div>" +
-            "<div class='issue-meta'>" +
-                "<span>Category: " + fix.category + "</span>" +
-                "<span>Location: " + fix.location + "</span>" +
-                "<span>" + fix.date + "</span>" +
-            "</div>" +
-            "<p>" + fix.description + "</p>" +
-            img +
+            "<div class='issue-meta'><span>Category: " + fix.category + "</span><span>Location: " + fix.location + "</span><span>" + fix.date + "</span></div>" +
+            "<p>" + fix.description + "</p>" + img +
             "<div class='status-note'>" + note + "</div>";
 
         fixesList.appendChild(card);
     }
 }
 
-function deleteMyQueryFromFixes(title) {
+function deleteFixQuery(title) {
     if (confirm("Delete this query?")) {
-        var list = getMyIssues();
+        var list = loadData("campusIssues");
         for (var i = 0; i < list.length; i++) {
             if (list[i].title === title) {
                 list.splice(i, 1);
                 break;
             }
         }
-        saveMyIssues(list);
+        saveData("campusIssues", list);
         showRecentFixes();
     }
 }
@@ -272,15 +211,9 @@ function filterFixes(type) {
     for (var i = 0; i < btns.length; i++) {
         btns[i].classList.remove("active");
     }
-    var idMap = {
-        "all": "filter-all",
-        "my-queries": "filter-my-queries",
-        "Pending": "filter-pending",
-        "In Progress": "filter-progress",
-        "Resolved": "filter-resolved"
-    };
-    var target = document.getElementById(idMap[type]);
-    if (target) target.classList.add("active");
+    var idMap = { "all": "filter-all", "my-queries": "filter-my-queries", "Pending": "filter-pending", "In Progress": "filter-progress", "Resolved": "filter-resolved" };
+    var activeBtn = document.getElementById(idMap[type]);
+    if (activeBtn) activeBtn.classList.add("active");
     showRecentFixes();
 }
 
@@ -289,19 +222,14 @@ if (fixesList) {
 }
 
 // ==========================================
-// Lost & Found Logic (lost-found.html)
+// 3. Lost & Found Logic (lost-found.html)
 // ==========================================
 var lostForm = document.getElementById("lost-found-form");
 var lostList = document.getElementById("lost-found-list");
 
-function getLostItems() {
-    var data = localStorage.getItem("lostAndFoundItems");
-    return data ? JSON.parse(data) : [];
-}
-
 function showLostItems() {
     if (!lostList) return;
-    var items = getLostItems();
+    var items = loadData("lostAndFoundItems");
     lostList.innerHTML = "";
 
     if (items.length === 0) {
@@ -319,26 +247,21 @@ function showLostItems() {
         card.innerHTML = 
             "<div style='display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;'>" +
                 "<h3>" + item.name + "</h3>" +
-                "<div>" +
-                    "<span class='" + badgeClass + "'>" + item.status + "</span>" +
-                    "<button class='delete-query-btn' onclick='deleteLostItem(" + i + ")'>Delete</button>" +
-                "</div>" +
+                "<div><span class='" + badgeClass + "'>" + item.status + "</span>" +
+                "<button class='delete-query-btn' onclick='deleteLostItem(" + i + ")'>Delete</button></div>" +
             "</div>" +
-            "<div class='issue-meta'>" +
-                "<span>Location: " + item.location + "</span>" +
-            "</div>" +
-            "<p>" + item.description + "</p>" +
-            img;
+            "<div class='issue-meta'><span>Location: " + item.location + "</span></div>" +
+            "<p>" + item.description + "</p>" + img;
 
         lostList.appendChild(card);
     }
 }
 
 function deleteLostItem(index) {
-    if (confirm("Delete this lost/found post?")) {
-        var items = getLostItems();
+    if (confirm("Delete this item?")) {
+        var items = loadData("lostAndFoundItems");
         items.splice(index, 1);
-        localStorage.setItem("lostAndFoundItems", JSON.stringify(items));
+        saveData("lostAndFoundItems", items);
         showLostItems();
     }
 }
@@ -354,34 +277,23 @@ if (lostForm) {
         var location = document.getElementById("itemLocation").value;
         var description = document.getElementById("itemDescription").value;
         var fileInput = document.getElementById("itemImage");
-        var file = fileInput.files[0];
 
-        function addLostItem(imageData) {
+        readFile(fileInput, function(imageData) {
             var newItem = {
                 status: status,
                 name: name,
                 location: location,
                 description: description,
-                image: imageData || ""
+                image: imageData
             };
 
-            var items = getLostItems();
+            var items = loadData("lostAndFoundItems");
             items.unshift(newItem);
-            localStorage.setItem("lostAndFoundItems", JSON.stringify(items));
+            saveData("lostAndFoundItems", items);
 
             showLostItems();
             lostForm.reset();
             alert("Item posted to Lost & Found successfully!");
-        }
-
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                addLostItem(event.target.result);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            addLostItem("");
-        }
+        });
     });
 }
