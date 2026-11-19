@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recent Fixes - UniCare</title>
+    <title>Recent Fixes & Status - UniCare</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,65 +24,24 @@
 
     <!-- Main Content -->
     <main>
-        <h2>Recently Resolved Issues</h2>
+        <h2>Campus Issue Status & Recent Fixes</h2>
         <p class="intro-text">
-            Below is the log of recent infrastructure and maintenance issues that have been successfully resolved by the campus administration.
+            Track the live progress of all campus infrastructure issues. You can filter by Pending, In Progress, Resolved, or view your own posted queries.
         </p>
 
-        <!-- Resolved Issues List -->
-        <ul class="resolved-list">
-            <li class="resolved-item">
-                <div class="resolved-header">
-                    <h3>Fixed water cooler leakage in Boys Hostel</h3>
-                    <span class="resolved-badge">&#10003; Resolved</span>
-                </div>
-                <div class="resolved-meta">
-                    <span>Category: Plumbing</span>
-                    <span>Location: Boys Hostel (Block 2)</span>
-                    <span>Date: Resolved on Nov 14</span>
-                </div>
-                <p>The damaged inlet valve was replaced and tested for normal water flow.</p>
-            </li>
+        <!-- Filter Buttons Bar -->
+        <div class="filter-container">
+            <button class="filter-btn active" id="filter-all" onclick="filterFixes('all')">All Issues</button>
+            <button class="filter-btn my-query-btn" id="filter-my-queries" onclick="filterFixes('my-queries')">👤 My Queries</button>
+            <button class="filter-btn" id="filter-pending" onclick="filterFixes('Pending')">⏳ Pending</button>
+            <button class="filter-btn" id="filter-progress" onclick="filterFixes('In Progress')">⚙️ In Progress</button>
+            <button class="filter-btn" id="filter-resolved" onclick="filterFixes('Resolved')">✅ Resolved</button>
+        </div>
 
-            <li class="resolved-item">
-                <div class="resolved-header">
-                    <h3>Wi-Fi router replaced in Library Ground Floor</h3>
-                    <span class="resolved-badge">&#10003; Resolved</span>
-                </div>
-                <div class="resolved-meta">
-                    <span>Category: Wi-Fi</span>
-                    <span>Location: Library Ground Floor</span>
-                    <span>Date: Resolved on Nov 12</span>
-                </div>
-                <p>A new dual-band access point was configured to restore student internet connectivity.</p>
-            </li>
-
-            <li class="resolved-item">
-                <div class="resolved-header">
-                    <h3>Replaced broken projector cable in Block 34, Room 201</h3>
-                    <span class="resolved-badge">&#10003; Resolved</span>
-                </div>
-                <div class="resolved-meta">
-                    <span>Category: Maintenance</span>
-                    <span>Location: Block 34, Room 201</span>
-                    <span>Date: Resolved on Nov 10</span>
-                </div>
-                <p>The faulty HDMI cable was swapped out and projector display tested with classroom laptops.</p>
-            </li>
-
-            <li class="resolved-item">
-                <div class="resolved-header">
-                    <h3>Repaired broken desk benches in Main Block, Room 102</h3>
-                    <span class="resolved-badge">&#10003; Resolved</span>
-                </div>
-                <div class="resolved-meta">
-                    <span>Category: Maintenance</span>
-                    <span>Location: Main Block, Room 102</span>
-                    <span>Date: Resolved on Nov 08</span>
-                </div>
-                <p>Carpentry team fixed loose screws and reinforced two wooden benches for safe seating.</p>
-            </li>
-        </ul>
+        <!-- Dynamic List of Fixes / Issues -->
+        <div id="fixes-list">
+            <!-- Rendered dynamically by script.js -->
+        </div>
     </main>
 
     <!-- Footer Section -->

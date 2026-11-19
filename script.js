@@ -1,214 +1,387 @@
-// JavaScript for Campus Problem Reporting System
-
-// ==========================================
-// 1. DYNAMIC GREETING LOGIC (For index.html)
-// ==========================================
-var greetingElement = document.getElementById("dynamic-greeting");
-
-// Check if dynamic-greeting exists on the current page
-if (greetingElement) {
-    var currentTime = new Date();
-    var currentHour = currentTime.getHours();
-
-    if (currentHour < 12) {
-        greetingElement.innerText = "Good Morning, Welcome to UniCare!";
-    } else if (currentHour < 18) {
-        greetingElement.innerText = "Good Afternoon, Welcome to UniCare!";
+// Dynamic greeting for Home Page (index.html)
+var greeting = document.getElementById("dynamic-greeting");
+if (greeting) {
+    var hour = new Date().getHours();
+    if (hour < 12) {
+        greeting.innerText = "Good Morning, Welcome to UniCare!";
+    } else if (hour < 18) {
+        greeting.innerText = "Good Afternoon, Welcome to UniCare!";
     } else {
-        greetingElement.innerText = "Good Evening, Welcome to UniCare!";
+        greeting.innerText = "Good Evening, Welcome to UniCare!";
     }
 }
 
+// Sample campus issues for Recent Fixes page
+var defaultIssues = [
+    {
+        title: "Ceiling fan regulator damaged in Hostel Room 204",
+        category: "Hostel & Mess",
+        location: "Boys Hostel (Block 2, Room 204)",
+        date: "Nov 18",
+        status: "Pending",
+        description: "The fan speed regulator knob is stuck and sparks intermittently.",
+        image: "",
+        isMyQuery: false
+    },
+    {
+        title: "Wi-Fi access point router replacement",
+        category: "IT & Wi-Fi",
+        location: "Library Ground Floor",
+        date: "Nov 16",
+        status: "In Progress",
+        description: "Frequent disconnection in study cubicles. IT technician dispatched.",
+        image: "",
+        isMyQuery: false
+    },
+    {
+        title: "Classroom 304 projector lamp replacement",
+        category: "Academics",
+        location: "Main Academic Block, Room 304",
+        date: "Nov 15",
+        status: "In Progress",
+        description: "Projector lamp burned out during morning lecture. New parts ordered.",
+        image: "",
+        isMyQuery: false
+    },
+    {
+        title: "Replaced broken projector HDMI cable in Block 34",
+        category: "Academics",
+        location: "Block 34, Room 201",
+        date: "Nov 10",
+        status: "Resolved",
+        description: "The damaged HDMI cable was swapped out and tested with faculty laptops.",
+        image: "",
+        isMyQuery: false
+    },
+    {
+        title: "Repaired broken desk benches in Main Block",
+        category: "Infrastructure",
+        location: "Main Block, Room 102",
+        date: "Nov 08",
+        status: "Resolved",
+        description: "Carpentry team fixed loose screws and reinforced two wooden benches.",
+        image: "",
+        isMyQuery: false
+    }
+];
+
+// Helper functions for localStorage
+function getMyIssues() {
+    var data = localStorage.getItem("campusIssues");
+    return data ? JSON.parse(data) : [];
+}
+
+function saveMyIssues(list) {
+    localStorage.setItem("campusIssues", JSON.stringify(list));
+}
+
 // ==========================================
-// 2. REPORT FORM & LOCAL STORAGE (For report.html)
+// Report Form Logic (report.html)
 // ==========================================
 var reportForm = document.getElementById("report-form");
-var issueList = document.getElementById("issue-list");
+var reportList = document.getElementById("issue-list");
 
-// Function to display reported issues from localStorage
-function displayIssues() {
-    if (!issueList) return;
+function showReportedIssues() {
+    if (!reportList) return;
+    var list = getMyIssues();
+    reportList.innerHTML = "";
 
-    var storedIssues = localStorage.getItem("campusIssues");
-    var issues = storedIssues ? JSON.parse(storedIssues) : [];
-
-    issueList.innerHTML = "";
-
-    if (issues.length === 0) {
-        issueList.innerHTML = "<p class='no-issues'>No issues reported yet. Be the first to report one!</p>";
+    if (list.length === 0) {
+        reportList.innerHTML = "<p class='no-issues'>No issues reported yet. Be the first to report one!</p>";
         return;
     }
 
-    for (var i = 0; i < issues.length; i++) {
-        var issue = issues[i];
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        var imgTag = item.image ? "<img src='" + item.image + "' class='card-image' alt='Attached Photo'>" : "";
 
         var card = document.createElement("div");
         card.className = "issue-card";
-
-        // Optional image HTML if a photo was uploaded
-        var imageHtml = issue.image 
-            ? "<img src='" + issue.image + "' alt='Attached Evidence' class='card-image'>" 
-            : "";
-
         card.innerHTML = 
-            "<h3>" + issue.title + "</h3>" +
-            "<div class='issue-meta'>" +
-                "<span>Category: " + issue.category + "</span>" +
-                "<span>Location: " + issue.location + "</span>" +
+            "<div style='display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;'>" +
+                "<h3>" + item.title + "</h3>" +
+                "<div>" +
+                    "<span class='badge-pending'>⏳ " + item.status + "</span>" +
+                    "<button class='delete-query-btn' onclick='deleteReportedIssue(" + i + ")'>Delete</button>" +
+                "</div>" +
             "</div>" +
-            "<p>" + issue.description + "</p>" +
-            imageHtml;
+            "<div class='issue-meta'>" +
+                "<span>Category: " + item.category + "</span>" +
+                "<span>Location: " + item.location + "</span>" +
+                "<span>" + item.date + "</span>" +
+            "</div>" +
+            "<p>" + item.description + "</p>" +
+            imgTag;
 
-        issueList.appendChild(card);
+        reportList.appendChild(card);
     }
 }
 
-if (issueList) {
-    displayIssues();
+function deleteReportedIssue(index) {
+    if (confirm("Are you sure you want to delete this issue?")) {
+        var list = getMyIssues();
+        list.splice(index, 1);
+        saveMyIssues(list);
+        showReportedIssues();
+    }
 }
 
 if (reportForm) {
-    reportForm.addEventListener("submit", function(event) {
-        event.preventDefault();
+    showReportedIssues();
 
-        var titleInput = document.getElementById("title").value;
-        var categoryInput = document.getElementById("category").value;
-        var locationInput = document.getElementById("location").value;
-        var descriptionInput = document.getElementById("description").value;
-        
+    reportForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        var title = document.getElementById("title").value;
+        var category = document.getElementById("category").value;
+        var location = document.getElementById("location").value;
+        var description = document.getElementById("description").value;
         var fileInput = document.getElementById("image");
-        var selectedFile = fileInput && fileInput.files ? fileInput.files[0] : null;
+        var file = fileInput.files[0];
 
-        // Helper function to save issue and refresh display
-        function saveIssue(imageData) {
+        function addIssue(imageData) {
             var newIssue = {
-                title: titleInput,
-                category: categoryInput,
-                location: locationInput,
-                description: descriptionInput,
-                image: imageData || ""
+                title: title,
+                category: category,
+                location: location,
+                description: description,
+                image: imageData || "",
+                status: "Pending",
+                date: new Date().toLocaleDateString(),
+                isMyQuery: true
             };
 
-            var storedIssues = localStorage.getItem("campusIssues");
-            var issues = storedIssues ? JSON.parse(storedIssues) : [];
+            var list = getMyIssues();
+            list.unshift(newIssue);
+            saveMyIssues(list);
 
-            issues.unshift(newIssue);
-            localStorage.setItem("campusIssues", JSON.stringify(issues));
-
-            displayIssues();
+            showReportedIssues();
             reportForm.reset();
-
             alert("Issue submitted successfully!");
         }
 
-        // If user attached a file, read it as Data URL (base64)
-        if (selectedFile) {
+        if (file) {
             var reader = new FileReader();
-            reader.onload = function(e) {
-                saveIssue(e.target.result);
+            reader.onload = function(event) {
+                addIssue(event.target.result);
             };
-            reader.readAsDataURL(selectedFile);
+            reader.readAsDataURL(file);
         } else {
-            saveIssue("");
+            addIssue("");
         }
     });
 }
 
 // ==========================================
-// 3. LOST & FOUND LOGIC (For lost-found.html)
+// Recent Fixes & Status Logic (resolved.html)
 // ==========================================
-var lostFoundForm = document.getElementById("lost-found-form");
-var lostFoundList = document.getElementById("lost-found-list");
+var fixesList = document.getElementById("fixes-list");
+var currentFilter = "all";
 
-// Function to display lost and found items from localStorage
-function displayLostFoundItems() {
-    if (!lostFoundList) return;
+function showRecentFixes() {
+    if (!fixesList) return;
 
-    var storedItems = localStorage.getItem("lostAndFoundItems");
-    var items = storedItems ? JSON.parse(storedItems) : [];
+    var myIssues = getMyIssues();
+    var allItems = myIssues.concat(defaultIssues);
+    var filtered = [];
 
-    lostFoundList.innerHTML = "";
+    for (var i = 0; i < allItems.length; i++) {
+        var item = allItems[i];
+        if (currentFilter === "all") {
+            filtered.push(item);
+        } else if (currentFilter === "my-queries" && item.isMyQuery) {
+            filtered.push(item);
+        } else if (item.status === currentFilter) {
+            filtered.push(item);
+        }
+    }
+
+    fixesList.innerHTML = "";
+
+    if (filtered.length === 0) {
+        if (currentFilter === "my-queries") {
+            fixesList.innerHTML = "<p class='no-issues'>You have not posted any queries yet. <a href='report.html'>Report an Issue</a>.</p>";
+        } else {
+            fixesList.innerHTML = "<p class='no-issues'>No issues found under " + currentFilter + ".</p>";
+        }
+        return;
+    }
+
+    for (var j = 0; j < filtered.length; j++) {
+        var fix = filtered[j];
+        var card = document.createElement("div");
+        card.className = "status-card";
+
+        var badgeClass = "badge-pending";
+        var badgeText = "⏳ Pending";
+        var note = "Status: Pending — Admin has not checked or approved yet";
+
+        if (fix.status === "In Progress") {
+            card.className += " status-progress";
+            badgeClass = "badge-progress";
+            badgeText = "⚙️ In Progress";
+            note = "Status: In Progress — Work is actively underway";
+        } else if (fix.status === "Resolved") {
+            card.className += " status-resolved";
+            badgeClass = "badge-resolved";
+            badgeText = "✅ Resolved";
+            note = "Status: Resolved — Issue has been fixed";
+        } else {
+            card.className += " status-pending";
+        }
+
+        var myTag = fix.isMyQuery ? "<span class='badge-my-query'>👤 My Query</span>" : "";
+        var deleteBtn = fix.isMyQuery ? "<button class='delete-query-btn' onclick='deleteMyQueryFromFixes(\"" + fix.title.replace(/'/g, "\\'") + "\")'>Delete</button>" : "";
+        var img = fix.image ? "<img src='" + fix.image + "' class='card-image' alt='Photo'>" : "";
+
+        card.innerHTML = 
+            "<div class='status-header'>" +
+                "<h3>" + fix.title + myTag + "</h3>" +
+                "<div><span class='" + badgeClass + "'>" + badgeText + "</span>" + deleteBtn + "</div>" +
+            "</div>" +
+            "<div class='issue-meta'>" +
+                "<span>Category: " + fix.category + "</span>" +
+                "<span>Location: " + fix.location + "</span>" +
+                "<span>" + fix.date + "</span>" +
+            "</div>" +
+            "<p>" + fix.description + "</p>" +
+            img +
+            "<div class='status-note'>" + note + "</div>";
+
+        fixesList.appendChild(card);
+    }
+}
+
+function deleteMyQueryFromFixes(title) {
+    if (confirm("Delete this query?")) {
+        var list = getMyIssues();
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].title === title) {
+                list.splice(i, 1);
+                break;
+            }
+        }
+        saveMyIssues(list);
+        showRecentFixes();
+    }
+}
+
+function filterFixes(type) {
+    currentFilter = type;
+    var btns = document.querySelectorAll(".filter-btn");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.remove("active");
+    }
+    var idMap = {
+        "all": "filter-all",
+        "my-queries": "filter-my-queries",
+        "Pending": "filter-pending",
+        "In Progress": "filter-progress",
+        "Resolved": "filter-resolved"
+    };
+    var target = document.getElementById(idMap[type]);
+    if (target) target.classList.add("active");
+    showRecentFixes();
+}
+
+if (fixesList) {
+    showRecentFixes();
+}
+
+// ==========================================
+// Lost & Found Logic (lost-found.html)
+// ==========================================
+var lostForm = document.getElementById("lost-found-form");
+var lostList = document.getElementById("lost-found-list");
+
+function getLostItems() {
+    var data = localStorage.getItem("lostAndFoundItems");
+    return data ? JSON.parse(data) : [];
+}
+
+function showLostItems() {
+    if (!lostList) return;
+    var items = getLostItems();
+    lostList.innerHTML = "";
 
     if (items.length === 0) {
-        lostFoundList.innerHTML = "<p class='no-issues'>No lost or found items posted yet.</p>";
+        lostList.innerHTML = "<p class='no-issues'>No lost or found items posted yet.</p>";
         return;
     }
 
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
+        var badgeClass = item.status === "Lost" ? "badge-lost" : "badge-found";
+        var img = item.image ? "<img src='" + item.image + "' class='card-image' alt='Item Photo'>" : "";
 
         var card = document.createElement("div");
         card.className = "issue-card";
-
-        var badgeClass = item.status === "Lost" ? "badge-lost" : "badge-found";
-
-        // Optional image HTML if an item photo was uploaded
-        var imageHtml = item.image 
-            ? "<img src='" + item.image + "' alt='Item Photo' class='card-image'>" 
-            : "";
-
         card.innerHTML = 
-            "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'>" +
+            "<div style='display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;'>" +
                 "<h3>" + item.name + "</h3>" +
-                "<span class='" + badgeClass + "'>" + item.status + "</span>" +
+                "<div>" +
+                    "<span class='" + badgeClass + "'>" + item.status + "</span>" +
+                    "<button class='delete-query-btn' onclick='deleteLostItem(" + i + ")'>Delete</button>" +
+                "</div>" +
             "</div>" +
             "<div class='issue-meta'>" +
                 "<span>Location: " + item.location + "</span>" +
             "</div>" +
             "<p>" + item.description + "</p>" +
-            imageHtml;
+            img;
 
-        lostFoundList.appendChild(card);
+        lostList.appendChild(card);
     }
 }
 
-if (lostFoundList) {
-    displayLostFoundItems();
+function deleteLostItem(index) {
+    if (confirm("Delete this lost/found post?")) {
+        var items = getLostItems();
+        items.splice(index, 1);
+        localStorage.setItem("lostAndFoundItems", JSON.stringify(items));
+        showLostItems();
+    }
 }
 
-if (lostFoundForm) {
-    lostFoundForm.addEventListener("submit", function(event) {
-        event.preventDefault();
+if (lostForm) {
+    showLostItems();
 
-        var statusInput = document.getElementById("itemStatus").value;
-        var nameInput = document.getElementById("itemName").value;
-        var locationInput = document.getElementById("itemLocation").value;
-        var descriptionInput = document.getElementById("itemDescription").value;
+    lostForm.addEventListener("submit", function(e) {
+        e.preventDefault();
 
+        var status = document.getElementById("itemStatus").value;
+        var name = document.getElementById("itemName").value;
+        var location = document.getElementById("itemLocation").value;
+        var description = document.getElementById("itemDescription").value;
         var fileInput = document.getElementById("itemImage");
-        var selectedFile = fileInput && fileInput.files ? fileInput.files[0] : null;
+        var file = fileInput.files[0];
 
-        // Helper function to save item and refresh display
-        function saveItem(imageData) {
+        function addLostItem(imageData) {
             var newItem = {
-                status: statusInput,
-                name: nameInput,
-                location: locationInput,
-                description: descriptionInput,
+                status: status,
+                name: name,
+                location: location,
+                description: description,
                 image: imageData || ""
             };
 
-            var storedItems = localStorage.getItem("lostAndFoundItems");
-            var items = storedItems ? JSON.parse(storedItems) : [];
-
+            var items = getLostItems();
             items.unshift(newItem);
             localStorage.setItem("lostAndFoundItems", JSON.stringify(items));
 
-            displayLostFoundItems();
-            lostFoundForm.reset();
-
-            alert("Item posted to Lost & Found directory successfully!");
+            showLostItems();
+            lostForm.reset();
+            alert("Item posted to Lost & Found successfully!");
         }
 
-        // If user attached a file, read it as Data URL (base64)
-        if (selectedFile) {
+        if (file) {
             var reader = new FileReader();
-            reader.onload = function(e) {
-                saveItem(e.target.result);
+            reader.onload = function(event) {
+                addLostItem(event.target.result);
             };
-            reader.readAsDataURL(selectedFile);
+            reader.readAsDataURL(file);
         } else {
-            saveItem("");
+            addLostItem("");
         }
     });
 }

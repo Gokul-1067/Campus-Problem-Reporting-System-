@@ -285,23 +285,68 @@ main {
     white-space: nowrap;
 }
 
-/* Resolved Issues List (Recent Fixes Page) */
-.resolved-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 15px;
+/* Filter Buttons Bar (Recent Fixes Page) */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
-.resolved-item {
+.filter-btn {
+    background-color: #eef2f7;
+    color: #333333;
+    border: 1px solid #ccd5e0;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: #dce4ec;
+}
+
+.filter-btn.active {
+    background-color: #003366;
+    color: white;
+    border-color: #003366;
+}
+
+.filter-btn.my-query-btn {
+    border-color: #3f51b5;
+    color: #1a237e;
+}
+
+.filter-btn.my-query-btn.active {
+    background-color: #3f51b5;
+    color: white;
+}
+
+/* Status Cards for Recent Fixes & Issues */
+.status-card {
     background-color: #f9fbfd;
     border: 1px solid #dce4ec;
-    border-left: 5px solid #00802b;
     border-radius: 6px;
     padding: 16px 20px;
     margin-bottom: 16px;
 }
 
-.resolved-header {
+.status-pending {
+    border-left: 5px solid #e67e22;
+}
+
+.status-progress {
+    border-left: 5px solid #2980b9;
+}
+
+.status-resolved {
+    border-left: 5px solid #00802b;
+}
+
+.status-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -310,13 +355,36 @@ main {
     margin-bottom: 8px;
 }
 
-.resolved-item h3 {
+.status-header h3 {
     color: #003366;
     font-size: 18px;
     word-break: break-word;
 }
 
-.resolved-badge {
+/* Status Badges */
+.badge-pending {
+    background-color: #fef5e7;
+    color: #d35400;
+    border: 1px solid #f8c471;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.badge-progress {
+    background-color: #ebf5fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.badge-resolved {
     background-color: #e6f7ec;
     color: #00802b;
     border: 1px solid #b3e6c2;
@@ -327,27 +395,43 @@ main {
     white-space: nowrap;
 }
 
-.resolved-meta {
+.badge-my-query {
+    background-color: #ede7f6;
+    color: #4a148c;
+    border: 1px solid #d1c4e9;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+/* Delete Query Button for Student Submissions */
+.delete-query-btn {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-left: 10px;
+}
+
+.delete-query-btn:hover {
+    background-color: #fecaca;
+    color: #991b1b;
+}
+
+.status-note {
     font-size: 13px;
     color: #666666;
-    margin-bottom: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.resolved-meta span {
-    background-color: #eef2f7;
-    padding: 3px 8px;
-    border-radius: 3px;
-    font-weight: bold;
-    display: inline-block;
-}
-
-.resolved-item p {
-    font-size: 14px;
-    color: #444444;
-    word-break: break-word;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #e2e8f0;
 }
 
 /* Table Styling (Emergency Page) */
@@ -478,12 +562,12 @@ footer {
     }
 
     .issue-card,
-    .resolved-item {
+    .status-card {
         padding: 14px 14px;
     }
 
     .issue-card h3,
-    .resolved-item h3 {
+    .status-card h3 {
         font-size: 16.5px;
     }
 
