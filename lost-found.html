@@ -8,7 +8,6 @@
 </head>
 <body>
 
-    <!-- Header Section with Navigation -->
     <header>
         <div class="logo">
             <h1>UniCare</h1>
@@ -22,41 +21,38 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
     <main>
-        <h2>Campus Lost & Found Portal</h2>
-        <p class="intro-text">Lost an item on campus or found someone's belongings? Post the details below to help reunite owners with their items.</p>
+        <h2>Lost and Found</h2>
+        <p class="intro-text">Post details about lost or found items on campus.</p>
 
-        <!-- Lost and Found Form -->
         <form id="lost-found-form">
             <div class="form-group">
                 <label for="itemStatus">Status *</label>
                 <select id="itemStatus" required>
                     <option value="">-- Select Status --</option>
-                    <option value="Lost">Lost (I lost this item)</option>
-                    <option value="Found">Found (I found this item)</option>
+                    <option value="Lost">Lost</option>
+                    <option value="Found">Found</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="itemName">Item Name *</label>
-                <input type="text" id="itemName" placeholder="e.g. Blue Dell Laptop Charger, Scientific Calculator" required>
+                <input type="text" id="itemName" placeholder="e.g. Blue Laptop Charger, ID Card" required>
             </div>
 
             <div class="form-group">
-                <label for="itemLocation">Last Seen / Found Location *</label>
+                <label for="itemLocation">Location *</label>
                 <input type="text" id="itemLocation" placeholder="e.g., Block 34, Room 201" required>
             </div>
 
-            <!-- Insert File / Photo Option -->
             <div class="form-group">
-                <label for="itemImage">Attach Photo of Item (Optional)</label>
+                <label for="itemImage">Attach Photo (Optional)</label>
                 <input type="file" id="itemImage" accept="image/*">
             </div>
 
             <div class="form-group">
-                <label for="itemDescription">Description & Contact Info *</label>
-                <textarea id="itemDescription" rows="4" placeholder="Describe the item (color, brand, distinguishing marks) and how the owner can contact you..." required></textarea>
+                <label for="itemDescription">Description and Contact Info *</label>
+                <textarea id="itemDescription" rows="4" placeholder="Describe the item and your contact number or room..." required></textarea>
             </div>
 
             <button type="submit" class="btn btn-submit">Submit Item</button>
@@ -64,19 +60,14 @@
 
         <hr class="divider">
 
-        <!-- Lost & Found Directory Section -->
-        <h2>Lost & Found Directory</h2>
-        <div id="lost-found-list">
-            <!-- Items from localStorage will appear here -->
-        </div>
+        <h2>Lost and Found Items</h2>
+        <div id="lost-found-list"></div>
     </main>
 
-    <!-- Footer Section -->
     <footer>
-        <p>&copy; 2026 UniCare | Campus Problem Reporting System | Created for B.Tech CSE Project</p>
+        <p>&copy; 2026 UniCare | Campus Problem Reporting System | B.Tech CSE Project</p>
     </footer>
 
-    <!-- JavaScript File -->
     <script src="script.js"></script>
 </body>
 </html>

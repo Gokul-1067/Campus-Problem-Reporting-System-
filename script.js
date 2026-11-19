@@ -1,4 +1,4 @@
-// Dynamic greeting on Home Page (index.html)
+// Greeting based on time of day
 var greeting = document.getElementById("dynamic-greeting");
 if (greeting) {
     var hour = new Date().getHours();
@@ -11,7 +11,7 @@ if (greeting) {
     }
 }
 
-// Storage helper functions
+// LocalStorage helpers
 function loadData(key) {
     return JSON.parse(localStorage.getItem(key) || "[]");
 }
@@ -20,7 +20,7 @@ function saveData(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
-// File reader helper for image uploads
+// Read image as base64 data url
 function readFile(fileInput, callback) {
     if (fileInput && fileInput.files && fileInput.files[0]) {
         var reader = new FileReader();
@@ -31,18 +31,16 @@ function readFile(fileInput, callback) {
     }
 }
 
-// Default campus issues (shown on recent fixes page)
+// Demo issues on recent fixes page
 var defaultIssues = [
-    { title: "Ceiling fan regulator damaged in Hostel Room 204", category: "Hostel & Mess", location: "Boys Hostel (Block 2, Room 204)", date: "Nov 18", status: "Pending", description: "The fan speed regulator knob is stuck and sparks intermittently.", image: "", isMyQuery: false },
-    { title: "Wi-Fi access point router replacement", category: "IT & Wi-Fi", location: "Library Ground Floor", date: "Nov 16", status: "In Progress", description: "Frequent disconnection in study cubicles. IT technician dispatched.", image: "", isMyQuery: false },
-    { title: "Classroom 304 projector lamp replacement", category: "Academics", location: "Main Academic Block, Room 304", date: "Nov 15", status: "In Progress", description: "Projector lamp burned out during morning lecture. New parts ordered.", image: "", isMyQuery: false },
-    { title: "Replaced broken projector HDMI cable in Block 34", category: "Academics", location: "Block 34, Room 201", date: "Nov 10", status: "Resolved", description: "The damaged HDMI cable was swapped out and tested with faculty laptops.", image: "", isMyQuery: false },
-    { title: "Repaired broken desk benches in Main Block", category: "Infrastructure", location: "Main Block, Room 102", date: "Nov 08", status: "Resolved", description: "Carpentry team fixed loose screws and reinforced two wooden benches.", image: "", isMyQuery: false }
+    { title: "Ceiling fan regulator damaged in Hostel Room 204", category: "Hostel", location: "Boys Hostel (Block 2, Room 204)", date: "Nov 18", status: "Pending", description: "The fan speed regulator knob is stuck and sparks intermittently.", image: "", isMyQuery: false },
+    { title: "Wi-Fi access point router replacement", category: "WiFi", location: "Library Ground Floor", date: "Nov 16", status: "In Progress", description: "Frequent disconnection in study cubicles. IT technician dispatched.", image: "", isMyQuery: false },
+    { title: "Classroom 304 projector lamp replacement", category: "Classroom", location: "Main Academic Block, Room 304", date: "Nov 15", status: "In Progress", description: "Projector lamp burned out during morning lecture. New parts ordered.", image: "", isMyQuery: false },
+    { title: "Replaced broken projector HDMI cable in Block 34", category: "Classroom", location: "Block 34, Room 201", date: "Nov 10", status: "Resolved", description: "The damaged HDMI cable was swapped out and tested with faculty laptops.", image: "", isMyQuery: false },
+    { title: "Water cooler filter replacement in Mess", category: "Mess", location: "Mess Hall 1", date: "Nov 08", status: "Resolved", description: "Water purification filters were replaced and verified by staff.", image: "", isMyQuery: false }
 ];
 
-// ==========================================
-// 1. Report Form Logic (report.html)
-// ==========================================
+// Report issue form
 var reportForm = document.getElementById("report-form");
 var reportList = document.getElementById("issue-list");
 
@@ -52,7 +50,7 @@ function showReportedIssues() {
     reportList.innerHTML = "";
 
     if (list.length === 0) {
-        reportList.innerHTML = "<p class='no-issues'>No issues reported yet. Be the first to report one!</p>";
+        reportList.innerHTML = "<p class='no-issues'>No issues reported yet.</p>";
         return;
     }
 
@@ -65,7 +63,7 @@ function showReportedIssues() {
         card.innerHTML = 
             "<div style='display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;'>" +
                 "<h3>" + item.title + "</h3>" +
-                "<div><span class='badge-pending'>⏳ " + item.status + "</span>" +
+                "<div><span class='badge-pending'>" + item.status + "</span>" +
                 "<button class='delete-query-btn' onclick='deleteReportedIssue(" + i + ")'>Delete</button></div>" +
             "</div>" +
             "<div class='issue-meta'><span>Category: " + item.category + "</span><span>Location: " + item.location + "</span><span>" + item.date + "</span></div>" +
@@ -119,9 +117,7 @@ if (reportForm) {
     });
 }
 
-// ==========================================
-// 2. Recent Fixes & Status Logic (resolved.html)
-// ==========================================
+// Recent fixes and filtering
 var fixesList = document.getElementById("fixes-list");
 var currentFilter = "all";
 
@@ -157,24 +153,24 @@ function showRecentFixes() {
         card.className = "status-card";
 
         var badgeClass = "badge-pending";
-        var badgeText = "⏳ Pending";
-        var note = "Status: Pending — Admin has not checked or approved yet";
+        var badgeText = "Pending";
+        var note = "Status: Pending — Waiting for review";
 
         if (fix.status === "In Progress") {
             card.className += " status-progress";
             badgeClass = "badge-progress";
-            badgeText = "⚙️ In Progress";
-            note = "Status: In Progress — Work is actively underway";
+            badgeText = "In Progress";
+            note = "Status: In Progress — Work is in progress";
         } else if (fix.status === "Resolved") {
             card.className += " status-resolved";
             badgeClass = "badge-resolved";
-            badgeText = "✅ Resolved";
+            badgeText = "Resolved";
             note = "Status: Resolved — Issue has been fixed";
         } else {
             card.className += " status-pending";
         }
 
-        var myTag = fix.isMyQuery ? "<span class='badge-my-query'>👤 My Query</span>" : "";
+        var myTag = fix.isMyQuery ? "<span class='badge-my-query'>My Query</span>" : "";
         var deleteBtn = fix.isMyQuery ? "<button class='delete-query-btn' onclick='deleteFixQuery(\"" + fix.title.replace(/'/g, "\\'") + "\")'>Delete</button>" : "";
         var img = fix.image ? "<img src='" + fix.image + "' class='card-image' alt='Photo'>" : "";
 
@@ -221,9 +217,7 @@ if (fixesList) {
     showRecentFixes();
 }
 
-// ==========================================
-// 3. Lost & Found Logic (lost-found.html)
-// ==========================================
+// Lost & Found form
 var lostForm = document.getElementById("lost-found-form");
 var lostList = document.getElementById("lost-found-list");
 
@@ -293,7 +287,7 @@ if (lostForm) {
 
             showLostItems();
             lostForm.reset();
-            alert("Item posted to Lost & Found successfully!");
+            alert("Item posted successfully!");
         });
     });
 }
